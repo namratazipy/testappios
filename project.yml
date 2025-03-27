@@ -1,0 +1,33 @@
+name: eCommerceApp
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: 14.0
+targets:
+  eCommerceApp:
+    type: application
+    platform: iOS
+    sources:
+      - path: eCommerceApp
+    settings:
+      base:
+        INFOPLIST_FILE: eCommerceApp/Info.plist
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.eCommerceApp
+    info:
+      path: eCommerceApp/Info.plist
+      properties:
+        LSRequiresIPhoneOS: true
+        UILaunchStoryboardName: LaunchScreen
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+          UISceneConfigurations:
+            UIWindowSceneSessionRoleApplication:
+              - UISceneConfigurationName: Default Configuration
+                UISceneDelegateClassName: $(PRODUCT_MODULE_NAME).SceneDelegate
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight 
