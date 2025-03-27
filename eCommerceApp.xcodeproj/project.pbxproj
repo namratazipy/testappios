@@ -10,6 +10,7 @@
 		0C40B206D2D317AD50A1776C /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CF28419D1A7332E03D08184 /* AuthViewModel.swift */; };
 		1044A98946F7A4ABAB406A66 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3661E28414D240869F7A609 /* LoginView.swift */; };
 		1E62BC554B878997805D0566 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2885BB4ECE21D3E932F26E /* ProfileView.swift */; };
+		7CAA2817159145FDD4800392 /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EA9DB253A3C3E8A1A52722 /* ColorTheme.swift */; };
 		C039A6288DADC8ED2BF10E4C /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 450E05E4D063B343A2909A92 /* CartView.swift */; };
 		D980347A8DB8B497F093000C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05351030C45043B2538E2011 /* HomeView.swift */; };
 		DAD7153F7D0DA8A63EBEB822 /* eCommerceAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4161C4201F61F857A9D0A07A /* eCommerceAppApp.swift */; };
@@ -20,6 +21,7 @@
 		3CF28419D1A7332E03D08184 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		4161C4201F61F857A9D0A07A /* eCommerceAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = eCommerceAppApp.swift; sourceTree = "<group>"; };
 		450E05E4D063B343A2909A92 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
+		46EA9DB253A3C3E8A1A52722 /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
 		9D2885BB4ECE21D3E932F26E /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		ED6E8B75D94FD6782F7FD275 /* eCommerceApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = eCommerceApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3661E28414D240869F7A609 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -49,8 +51,25 @@
 				FF184DB578A41C2D2DA0101A /* Info.plist */,
 				E99E314C604DABC83053457E /* App */,
 				CAD6C6DBC62A5446E2628829 /* Features */,
+				94ABC67E00D6CC38EAC4998B /* UI */,
 			);
 			path = eCommerceApp;
+			sourceTree = "<group>";
+		};
+		7308C3D891160515A73B3A02 /* Styles */ = {
+			isa = PBXGroup;
+			children = (
+				46EA9DB253A3C3E8A1A52722 /* ColorTheme.swift */,
+			);
+			path = Styles;
+			sourceTree = "<group>";
+		};
+		94ABC67E00D6CC38EAC4998B /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				7308C3D891160515A73B3A02 /* Styles */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		C334CFF9C6B62008AC3E3455 /* Products */ = {
@@ -158,6 +177,7 @@
 			files = (
 				0C40B206D2D317AD50A1776C /* AuthViewModel.swift in Sources */,
 				C039A6288DADC8ED2BF10E4C /* CartView.swift in Sources */,
+				7CAA2817159145FDD4800392 /* ColorTheme.swift in Sources */,
 				D980347A8DB8B497F093000C /* HomeView.swift in Sources */,
 				1044A98946F7A4ABAB406A66 /* LoginView.swift in Sources */,
 				1E62BC554B878997805D0566 /* ProfileView.swift in Sources */,

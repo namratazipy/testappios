@@ -14,14 +14,15 @@ class AuthViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        // Simulate API call
+        // Simulate API call with a delay
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let self = self else { return }
             
-            if self.email == "test@example.com" && self.password == "password" {
+            // Accept any non-empty email and password
+            if !self.email.isEmpty && !self.password.isEmpty {
                 self.isAuthenticated = true
             } else {
-                self.errorMessage = "Invalid credentials"
+                self.errorMessage = "Please enter both email and password"
             }
             
             self.isLoading = false
