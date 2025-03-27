@@ -1,8 +1,13 @@
 import SwiftUI
-
+import ZipyiOS
 @main
 struct eCommerceAppApp: App {
     @StateObject private var authViewModel = AuthViewModel()
+    
+    init() {
+        print("hellll")
+        Zipy.initialize("8a9e7842")
+    }
     
     var body: some Scene {
         WindowGroup {

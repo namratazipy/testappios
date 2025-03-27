@@ -3,12 +3,17 @@ options:
   bundleIdPrefix: com.example
   deploymentTarget:
     iOS: 14.0
+packages:
+  ZipyiOS:
+    path: /Users/namrata/Downloads/ZipyiOS
 targets:
   eCommerceApp:
     type: application
     platform: iOS
     sources:
       - path: eCommerceApp
+    dependencies:
+      - package: ZipyiOS
     settings:
       base:
         INFOPLIST_FILE: eCommerceApp/Info.plist
