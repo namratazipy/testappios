@@ -3,6 +3,7 @@ import ZipyiOS
 @main
 struct eCommerceAppApp: App {
     @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var cartViewModel = CartViewModel()
     
     init() {
         print("hellll")
@@ -13,6 +14,7 @@ struct eCommerceAppApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(authViewModel)
+                .environmentObject(cartViewModel)
         }
     }
 }

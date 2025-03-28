@@ -8,16 +8,23 @@ struct CartItem: Identifiable {
 
 class CartViewModel: ObservableObject {
     @Published var items: [CartItem] = []
+    @Published var showAddedToCartFeedback = false
     
     var total: Double {
         items.reduce(0) { $0 + ($1.product.price * Double($1.quantity)) }
     }
     
-    func addItem(_ product: Product) {
+    func addItem(_ product: Product, quantity: Int = 1) {
         if let index = items.firstIndex(where: { $0.product.id == product.id }) {
-            items[index].quantity += 1
+            items[index].quantity += quantity
         } else {
-            items.append(CartItem(product: product, quantity: 1))
+            items.append(CartItem(product: product, quantity: quantity))
+        }
+        
+        // Show feedback
+        showAddedToCartFeedback = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+            self?.showAddedToCartFeedback = false
         }
     }
     
@@ -37,7 +44,7 @@ class CartViewModel: ObservableObject {
 }
 
 struct CartView: View {
-    @StateObject private var viewModel = CartViewModel()
+    @EnvironmentObject private var viewModel: CartViewModel
     @State private var showingCheckout = false
     
     var body: some View {
@@ -53,6 +60,21 @@ struct CartView: View {
             .sheet(isPresented: $showingCheckout) {
                 CheckoutView(total: viewModel.total)
             }
+            .overlay(
+                Group {
+                    if viewModel.showAddedToCartFeedback {
+                        VStack {
+                            Spacer()
+                            Text("Added to Cart")
+                                .foregroundColor(.white)
+                                .padding()
+                                .background(Color.green)
+                                .cornerRadius(10)
+                                .padding(.bottom, 20)
+                        }
+                    }
+                }
+            )
         }
     }
 }

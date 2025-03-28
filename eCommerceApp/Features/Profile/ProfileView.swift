@@ -16,6 +16,9 @@ class ProfileViewModel: ObservableObject {
     )
     @Published var isEditing = false
     @Published var showingLogoutAlert = false
+    @Published var notificationsEnabled = true
+    @Published var darkModeEnabled = false
+    @Published var biometricEnabled = false
     
     func updateProfile(_ updatedProfile: UserProfile) {
         profile = updatedProfile
@@ -39,7 +42,7 @@ struct ProfileView: View {
                     HStack {
                         Image(systemName: "person.circle.fill")
                             .font(.system(size: 60))
-                            .foregroundColor(.blue)
+                            .foregroundColor(ColorTheme.primary)
                         
                         VStack(alignment: .leading) {
                             Text(viewModel.profile.name)
@@ -68,23 +71,45 @@ struct ProfileView: View {
                             viewModel.isEditing = true
                         }) {
                             Text("Edit Profile")
-                                .foregroundColor(.blue)
+                                .foregroundColor(ColorTheme.primary)
                         }
                     }
                 }
                 
                 // Settings
                 Section(header: Text("Settings")) {
-                    NavigationLink(destination: Text("Notifications")) {
-                        Label("Notifications", systemImage: "bell")
+                    Toggle("Notifications", isOn: $viewModel.notificationsEnabled)
+                    Toggle("Dark Mode", isOn: $viewModel.darkModeEnabled)
+                    Toggle("Face ID / Touch ID", isOn: $viewModel.biometricEnabled)
+                }
+                
+                // Privacy & Security
+                Section(header: Text("Privacy & Security")) {
+                    NavigationLink(destination: Text("Privacy Settings")) {
+                        SettingsRow(icon: "lock.shield", title: "Privacy Settings")
                     }
                     
-                    NavigationLink(destination: Text("Privacy")) {
-                        Label("Privacy", systemImage: "lock")
+                    NavigationLink(destination: Text("Security Settings")) {
+                        SettingsRow(icon: "key", title: "Security")
                     }
                     
-                    NavigationLink(destination: Text("Help & Support")) {
-                        Label("Help & Support", systemImage: "questionmark.circle")
+                    NavigationLink(destination: Text("Password Settings")) {
+                        SettingsRow(icon: "key.fill", title: "Change Password")
+                    }
+                }
+                
+                // Help & Support
+                Section(header: Text("Help & Support")) {
+                    NavigationLink(destination: Text("Help Center")) {
+                        SettingsRow(icon: "questionmark.circle", title: "Help Center")
+                    }
+                    
+                    NavigationLink(destination: Text("Contact Support")) {
+                        SettingsRow(icon: "envelope", title: "Contact Support")
+                    }
+                    
+                    NavigationLink(destination: Text("About")) {
+                        SettingsRow(icon: "info.circle", title: "About")
                     }
                 }
                 
@@ -93,8 +118,12 @@ struct ProfileView: View {
                     Button(action: {
                         viewModel.showingLogoutAlert = true
                     }) {
-                        Text("Logout")
-                            .foregroundColor(.red)
+                        HStack {
+                            Image(systemName: "arrow.right.square")
+                                .foregroundColor(.red)
+                            Text("Logout")
+                                .foregroundColor(.red)
+                        }
                     }
                 }
             }
@@ -113,17 +142,33 @@ struct ProfileView: View {
     }
 }
 
+struct SettingsRow: View {
+    let icon: String
+    let title: String
+    
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(ColorTheme.primary)
+                .frame(width: 24)
+            Text(title)
+        }
+    }
+}
+
 struct ProfileInfoRow: View {
     let title: String
     let value: String
     
     var body: some View {
-        HStack {
+        VStack(alignment: .leading, spacing: 4) {
             Text(title)
+                .font(.caption)
                 .foregroundColor(.gray)
-            Spacer()
             Text(value)
+                .font(.body)
         }
+        .padding(.vertical, 2)
     }
 }
 
