@@ -151,7 +151,6 @@ struct HomeView: View {
     @StateObject private var viewModel = HomeViewModel()
     @State private var selectedProduct: Product?
     @State private var showingFilters = false
-    @State private var selectedCategory: String?
     
     private let columns = [
         GridItem(.flexible()),
@@ -170,18 +169,11 @@ struct HomeView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 15) {
                             ForEach(viewModel.categories, id: \.self) { category in
-                                NavigationLink(
-                                    destination: CategoryView(category: category),
-                                    tag: category,
-                                    selection: $selectedCategory
-                                ) {
+                                NavigationLink(destination: CategoryView(category: category)) {
                                     CategoryButton(
                                         title: category,
                                         isSelected: viewModel.selectedCategory == category,
-                                        action: {
-                                            selectedCategory = category
-                                            viewModel.selectedCategory = category
-                                        }
+                                        action: {}
                                     )
                                 }
                             }
@@ -276,17 +268,15 @@ struct CategoryButton: View {
     let action: () -> Void
     
     var body: some View {
-        Button(action: action) {
-            Text(title)
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .padding(.horizontal, 20)
-                .padding(.vertical, 8)
-                .background(isSelected ? ColorTheme.primary : Color.white)
-                .foregroundColor(isSelected ? .white : ColorTheme.text)
-                .cornerRadius(20)
-                .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 2)
-        }
+        Text(title)
+            .font(.subheadline)
+            .fontWeight(.medium)
+            .padding(.horizontal, 20)
+            .padding(.vertical, 8)
+            .background(isSelected ? ColorTheme.primary : Color.white)
+            .foregroundColor(isSelected ? .white : ColorTheme.text)
+            .cornerRadius(20)
+            .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 2)
     }
 }
 
@@ -465,7 +455,26 @@ struct CategoryView: View {
     let category: String
     @StateObject private var viewModel = HomeViewModel()
     @State private var selectedProduct: Product?
-    @State private var isLoading = false
+    
+    var body: some View {
+        if category == "Sports" {
+            SportsView(viewModel: viewModel)
+                .onAppear {
+                    viewModel.loadProducts()
+                }
+        } else {
+            ProductListView(category: category, viewModel: viewModel)
+                .onAppear {
+                    viewModel.loadProducts()
+                }
+        }
+    }
+}
+
+struct ProductListView: View {
+    let category: String
+    @ObservedObject var viewModel: HomeViewModel
+    @State private var selectedProduct: Product?
     
     private let columns = [
         GridItem(.flexible()),
@@ -477,58 +486,42 @@ struct CategoryView: View {
     }
     
     var body: some View {
-        Group {
-            if category == "Sports" {
-                SportsView(viewModel: viewModel)
-            } else {
-                ScrollView {
-                    VStack(spacing: 16) {
-                        if isLoading {
-                            ProgressView()
-                                .padding()
-                        } else {
-                            // Category Header
-                            VStack(alignment: .leading, spacing: 8) {
-                                Text(category)
-                                    .font(.title)
-                                    .fontWeight(.bold)
-                                
-                                Text("\(filteredProducts.count) items")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding()
-                            
-                            // Products Grid
-                            if filteredProducts.isEmpty {
-                                Text("No products found")
-                                    .foregroundColor(.gray)
-                                    .padding()
-                            } else {
-                                LazyVGrid(columns: columns, spacing: 16) {
-                                    ForEach(filteredProducts) { product in
-                                        ProductCard(product: product)
-                                            .onTapGesture {
-                                                selectedProduct = product
-                                            }
-                                    }
+        ScrollView {
+            VStack(spacing: 16) {
+                // Category Header
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(category)
+                        .font(.title)
+                        .fontWeight(.bold)
+                    
+                    Text("\(filteredProducts.count) items")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+                
+                // Products Grid
+                if filteredProducts.isEmpty {
+                    Text("No products found")
+                        .foregroundColor(.gray)
+                        .padding()
+                } else {
+                    LazyVGrid(columns: columns, spacing: 16) {
+                        ForEach(filteredProducts) { product in
+                            ProductCard(product: product)
+                                .onTapGesture {
+                                    selectedProduct = product
                                 }
-                                .padding()
-                            }
                         }
                     }
+                    .padding()
                 }
             }
         }
         .navigationTitle(category)
         .sheet(item: $selectedProduct) { product in
             ProductDetailView(product: product)
-        }
-        .onAppear {
-            isLoading = true
-            viewModel.loadProducts()
-            isLoading = false
         }
     }
 }
